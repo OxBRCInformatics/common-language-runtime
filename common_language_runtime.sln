@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxford.Brc.Clinical.Data.Warehouse", "Oxford.Brc.Clinical.Data.Warehouse\Oxford.Brc.Clinical.Data.Warehouse.csproj", "{0E01AE4C-ED09-40A0-ADB3-8A11F8FF6BA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxford.Brc.Clinical.Data.Warehouse.Test", "Oxford.Brc.Clinical.Data.Warehouse.Test\Oxford.Brc.Clinical.Data.Warehouse.Test.csproj", "{79E51E53-12EA-43E4-96FC-073C17E1659C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|Any CPU = Release|Any CPU
+		Test|Any CPU = Test|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E01AE4C-ED09-40A0-ADB3-8A11F8FF6BA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E01AE4C-ED09-40A0-ADB3-8A11F8FF6BA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E01AE4C-ED09-40A0-ADB3-8A11F8FF6BA9}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{0E01AE4C-ED09-40A0-ADB3-8A11F8FF6BA9}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{0E01AE4C-ED09-40A0-ADB3-8A11F8FF6BA9}.Test|Any CPU.Build.0 = Test|Any CPU
+		{79E51E53-12EA-43E4-96FC-073C17E1659C}.Release|Any CPU.ActiveCfg = Test|Any CPU
+		{79E51E53-12EA-43E4-96FC-073C17E1659C}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{79E51E53-12EA-43E4-96FC-073C17E1659C}.Test|Any CPU.Build.0 = Test|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C919F96F-A832-4F98-A4EC-1E5221A54B59}
+	EndGlobalSection
+EndGlobal
