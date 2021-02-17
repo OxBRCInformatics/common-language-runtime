@@ -22,7 +22,7 @@ CREATE ASSEMBLY OxBrcCdwFunctions
 ## Available SQL Functions
 
 * Files can be found in the `database/functions` directory.
-* Functions in the SQL files are deployed into `utilties` database into the `oxbrccdw` schema. This can be changed by altering the SQL file before running.
+* Functions in the SQL files are deployed into `utilities` database into the `oxbrccdw` schema. This can be changed by altering the SQL file before running.
 
 ### Cleaning
 
@@ -38,8 +38,8 @@ CREATE ASSEMBLY OxBrcCdwFunctions
 | `reloadBoilerPlateCache` | `reloadBoilerPlateCache.sql` | Reloads the Boiler Plate entries from the database tables into the RedactionDictionary. |
 | `reloadReportRemovalCache` | `reloadReportRemovalCache.sql` | Reloads the Report Removal entries from the database tables into the RedactionDictionary. |
 | `cleanBoilerPlate` | `cleanBoilerPlate.sql` | Removes all boiler plate text from the provided report. |
-| `redactConfidentials` | `redactConfidentials.sql` | Redacts all confidential data from the provided report text. Takes an comma separated string of known patient confidential data which should also be redacted. |
-| `wipeoutReportsMatchingRemovalMarkers` | `wipeoutReportsMatchingRemovalMarkers.sql` | Checks provided report to see if it matches the known wipeout regex and returns `null` if it does. |
+| `redactConfidentials` | `redactConfidentials.sql` | Redacts all confidential data from the provided report text. Takes a comma separated string of known patient confidential data which should also be redacted. |
+| `wipeoutReportsMatchingRemovalMarkers` | `wipeoutReportsMatchingRemovalMarkers.sql` | Checks provided report to see if it matches the known wipe out regex and returns `null` if it does. |
 
 ## How to Redact Reports
 
@@ -49,9 +49,9 @@ It is a 3 stage process which is best performed by performing insert then update
 
 1. Clean boiler plate from the report
 1. Redact confidential data from the report
-1. Wipeout reports with meaningless data
+1. Wipe out reports with meaningless data
 
-Please be aware this process is not perfect with respect to patient names as there are names in the medical terms whitelist which if redacted would make a medical report impossible to understand as they are the names given to medical diagnoses.
+Please be aware this process is not perfect with respect to patient names as there are names in the medical terms allow list which if redacted would make a medical report impossible to understand as they are the names given to medical diagnoses.
 
 ### Process
 
@@ -133,9 +133,9 @@ FROM
 
 ### 2. Redact Report
 
-This step is designed to perform the actual redaction of the reports. It will perform whitelist checking using the `phi` column as a blacklist, any redacted data will be replaced with `[REDACTED]`. The following SQL is suggested for performing step 2 of the redaction to perform the redaction. It will update each row setting the redacted column in the table.
+This step is designed to perform the actual redaction of the reports. It will perform allow list checking using the `phi` column as a deny list, any redacted data will be replaced with `[REDACTED]`. The following SQL is suggested for performing step 2 of the redaction to perform the redaction. It will update each row setting the redacted column in the table.
 
-**Please see the [section about the whitelist dictionaries](#whitelist-dictionaries)**
+**Please see the [section about the allow list dictionaries](#whitelist-dictionaries)**
 
 ```tsql
 UPDATE dp_xxx.redacted_imaging_reports
@@ -144,13 +144,13 @@ SET
     wiped_report = null
 ```
 
-### 3. Wipeout Reports
+### 3. Wipe out Reports
 
-This step is designed to wipeout all “empty” reports. This is done using regular expressions loaded from `data_products.safeguard.report_removal_regex`.
+This step is designed to wipe out all “empty” reports. This is done using regular expressions loaded from `data_products.safeguard.report_removal_regex`.
 
 **Please see the [section about the redaction cache](#redaction-cache)**
 
-The following SQL is suggested for performing step 3 of the redaction to wipeout the empty reports. It will update each row setting the wiped report column in the table.
+The following SQL is suggested for performing step 3 of the redaction to wipe out the empty reports. It will update each row setting the wiped report column in the table.
 
 ```tsql
 UPDATE dp_xxx.redacted_imaging_reports
@@ -165,12 +165,12 @@ The entire redaction system is run inside Common Runtime Language C# assembly. W
 * `data_products.safeguard.report_removal_boilerplate_regex`
 * `data_products.safeguard.report_removal_regex`
 
-Any changes to the database will require the cache to be reloaded. This can easily be acheived by the use of the stored procedure
+Any changes to the database will require the cache to be reloaded. This can easily be achieved by the use of the stored procedure
 `utilities.cdw.reloadBoilerPlateCache`, call this if you make any alterations to the tables. Or add it to the SQL stored procedure which performs the cleaning of the boilerplate, this will ensure the cache is updated just before you run the boilerplate cleaning.
 
-## Whitelist Dictionaries
+## Allow list Dictionaries
 
-The following files are loaded as whitelist dictionaries, you can add to or edit these files to alter the whitelist, you will need to recompile the assembly `.dll` and redeploy it to the SQL Server. All entries should be lowercase as word checking is performed by converting the report to lowercase then matching.
+The following files are loaded as allow list dictionaries, you can add to or edit these files to alter the allow list, you will need to recompile the assembly `.dll` and redeploy it to the SQL Server. All entries should be lowercase as word checking is performed by converting the report to lowercase then matching.
 
 All files are in the `Oxford.Brc.Clinical.Data.Warehouse/Resources` directory.
 
@@ -178,6 +178,6 @@ All files are in the `Oxford.Brc.Clinical.Data.Warehouse/Resources` directory.
 |------------|----------|
 | List of custom regex markers | `custom_full_text_markers.txt` |
 | Empty dictionary for users to add to  | `custom-dictionary.txt` |
-| Known medicaly acronyms | `medical-acronyms.txt` |
+| Known medical acronyms | `medical-acronyms.txt` |
 | Known medical terms | `medical-terms.txt` |
 | List of dictionary words with all names removed | `words_alpha.txt` |
